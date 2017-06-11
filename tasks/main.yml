@@ -1,0 +1,64 @@
+---
+# tasks file for ansible-role-openvpn-client---
+- name: "Install openvpn"
+  apt:
+    name: openvpn
+
+- name: "Copy ca.crt"
+  copy:
+    content: "{{ item.ca_crt }}"
+    dest: "/etc/openvpn/{{ item.name }}-ca.crt"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Enable OpenVPN client
+  with_items: "{{ openvpn_client }}"
+
+- name: "Copy ta.key"
+  copy:
+    content: "{{ item.ta_key }}"
+    dest: "/etc/openvpn/{{ item.name }}-ta.key"
+    owner: root
+    group: root
+    mode: 0600
+  notify: Enable OpenVPN client
+  with_items: "{{ openvpn_client }}"
+  when: item.has_key('ta_key') and item.ta_key != ""
+
+- name: "Copy client crt"
+  copy:
+    content: "{{ item.client_crt }}"
+    dest: "/etc/openvpn/{{ item.name }}.crt"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Enable OpenVPN client
+  with_items: "{{ openvpn_client }}"
+
+- name: "Copy client key"
+  copy:
+    content: "{{ item.client_key }}"
+    dest: "/etc/openvpn/{{ item.name }}.key"
+    owner: root
+    group: root
+    mode: 0600
+  notify: Enable OpenVPN client
+  with_items: "{{ openvpn_client }}"
+
+- name: "Create conf"
+  template:
+    src: "client.conf.j2"
+    dest: "/etc/openvpn/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Enable OpenVPN client
+  with_items: "{{ openvpn_client }}"
+
+- name: "Allow out to OpenVPN"
+  ufw:
+    rule: allow
+    direction: out
+    to_port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items: "{{ openvpn_client }}"
