@@ -7,7 +7,7 @@
 - name: "Copy ca.crt"
   copy:
     content: "{{ item.ca_crt }}"
-    dest: "/etc/openvpn/{{ item.name }}-ca.crt"
+    dest: "/etc/openvpn/client/{{ item.name }}-ca.crt"
     owner: root
     group: root
     mode: 0644
@@ -17,7 +17,7 @@
 - name: "Copy ta.key"
   copy:
     content: "{{ item.ta_key }}"
-    dest: "/etc/openvpn/{{ item.name }}-ta.key"
+    dest: "/etc/openvpn/client/{{ item.name }}-ta.key"
     owner: root
     group: root
     mode: 0600
@@ -28,7 +28,7 @@
 - name: "Copy client crt"
   copy:
     content: "{{ item.client_crt }}"
-    dest: "/etc/openvpn/{{ item.name }}.crt"
+    dest: "/etc/openvpn/client/{{ item.name }}.crt"
     owner: root
     group: root
     mode: 0644
@@ -38,7 +38,7 @@
 - name: "Copy client key"
   copy:
     content: "{{ item.client_key }}"
-    dest: "/etc/openvpn/{{ item.name }}.key"
+    dest: "/etc/openvpn/client/{{ item.name }}.key"
     owner: root
     group: root
     mode: 0600
@@ -48,7 +48,7 @@
 - name: "Create conf"
   template:
     src: "client.conf.j2"
-    dest: "/etc/openvpn/{{ item.name }}.conf"
+    dest: "/etc/openvpn/client/{{ item.name }}.conf"
     owner: root
     group: root
     mode: 0644
