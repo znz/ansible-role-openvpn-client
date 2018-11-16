@@ -14,12 +14,12 @@ cert {{ item.name }}.crt
 key {{ item.name }}.key
 ;ns-cert-type server
 remote-cert-tls server
-{% if item.has_key('ta_key') and item.ta_key != "" %}
+{% if "ta_key" in item and item.ta_key != "" %}
 tls-auth {{ item.name }}-ta.key 1
 {% endif %}
 cipher {{ item.cipher }}
 auth {{ item.auth }}
-{% if item.has_key('tls_cipher') and item.tls_cipher != "" %}
+{% if "tls_cipher" in item and item.tls_cipher != "" %}
 tls-cipher {{ item.tls_cipher }}
 {% endif %}
 comp-lzo

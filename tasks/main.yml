@@ -23,7 +23,7 @@
     mode: 0600
   notify: Enable OpenVPN client
   with_items: "{{ openvpn_client }}"
-  when: item.has_key('ta_key') and item.ta_key != ""
+  when: '"ta_key" in item and item.ta_key != ""'
 
 - name: "Copy client crt"
   copy:
