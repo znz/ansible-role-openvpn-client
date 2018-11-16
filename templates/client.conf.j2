@@ -22,6 +22,6 @@ auth {{ item.auth }}
 {% if "tls_cipher" in item and item.tls_cipher != "" %}
 tls-cipher {{ item.tls_cipher }}
 {% endif %}
-comp-lzo
+;comp-lzo
 verb 3
 ;mute 20
